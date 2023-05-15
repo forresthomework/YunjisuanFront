@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>LeetcodeResults</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon-16x16.png" />
+  <link rel="icon" href="favicon-16x16.png" />
+  <link rel="stylesheet" href="/src/assets/main.css" />
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+<body>
+  <div id="app">
+    <div class="search-container-results">
+      <div class="logo-container-results">
+        <img src="leetcode.png" alt="Logo" class="logo-results" />
+      </div>
+      <div class="search-box-results">
+        <input type="text" :placeholder="searchQuery" >
+        <img
+          class="search-icon-results"
+          src="icon_search.svg"
+          alt="Magnifying Glass"
+        /> 
+      </div>
+      <div id="titleitem">
+          <div class="title-div" v-for="item in jsonData" :key="item.title" @click="handleClick(item.url)">
+            {{ item.title }}
+            <span class="tag0" :id="item.id">id:{{ item.id }}</span>
+            <span class="tag1" :id="item.algorithm_label">Algorithm_label:{{ item.algorithm_label }}</span>
+          </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        searchQuery: '',
+        content: '',
+        jsonData: '',
+      },
+      created() {
+        const queryParams = new URLSearchParams(window.location.search);
+        this.searchQuery = queryParams.get('searchText');
+        this.jsonData = JSON.parse(queryParams.get('data'));
+      },
+      methods: {
+        handleClick(url) {
+        	window.location.href = url;
+        },
+      },
+    });
+  </script>
+</body>
+</html>
