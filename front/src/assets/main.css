@@ -137,28 +137,27 @@ body {
   background-color: #e0e0e0; /* 鼠标悬停时的背景颜色 */
 }
 
-.tag0 {
-  position: absolute;
-  left: 0;
-  top: 100%;
-  margin-top: 5px;
+
+.tag0,
+.tag1,
+.tag2 {
+  flex: 1;
   font-size: 10px;
   color: #fff;
-  background-color: orange;
   padding: 3px 5px;
   border-radius: 5px;
 }
 
+.tag0 {
+  background-color: orange;
+  margin-right: 5px;
+}
+
 .tag1 {
-  position: absolute;
-  left: 0;
-  top: 100%;
-  margin-top: 5px;
-  font-size: 10px;
-  color: #999;
-  color: #fff;
   background-color: #CCE6FF;
-  padding: 3px 5px;
-  border-radius: 5px;
-  left: 40px; /* 将 left 属性设置为 tag0 的宽度加上间距 5px */
+  margin-right: 20px;
+}
+
+.tag2 {
+  background-color: red;
 }
