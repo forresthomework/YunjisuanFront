@@ -9,6 +9,7 @@
   <link rel="icon" href="favicon-16x16.png" />
   <link rel="stylesheet" href="/src/assets/main.css" />
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
 <body>
   <div id="app">
@@ -17,7 +18,12 @@
         <img src="leetcode.png" alt="Logo" class="logo-results" />
       </div>
       <div class="search-box-results">
-        <input type="text" :placeholder="searchQuery" >
+        <input 
+          type="text" 
+          v-model="searchQuery"
+          @keydown.enter="redirectToResults"
+          placeholder="请出示你的星穹铁道车票ID" 
+        >
         <img
           class="search-icon-results"
           src="icon_search.svg"
@@ -25,10 +31,11 @@
         /> 
       </div>
       <div id="titleitem">
-          <div class="title-div" v-for="item in jsonData" :key="item.title" @click="handleClick(item.url)">
+          <div class="title-div" v-for="item in [jsonData]" :key="item.title" @click="handleClick(item.url)">
             {{ item.title }}
             <span class="tag0" :id="item.id">id:{{ item.id }}</span>
             <span class="tag1" :id="item.algorithm_label">Algorithm_label:{{ item.algorithm_label }}</span>
+            <span class="tag2" :id="item.difficulty">difficulty:{{ item.difficulty }}</span>
           </div>
       </div>
     </div>
@@ -38,18 +45,31 @@
       el: '#app',
       data: {
         searchQuery: '',
-        content: '',
         jsonData: '',
       },
       created() {
         const queryParams = new URLSearchParams(window.location.search);
-        this.searchQuery = queryParams.get('searchText');
+        this.searchQuery = queryParams.get('searchQuery');
         this.jsonData = JSON.parse(queryParams.get('data'));
       },
       methods: {
         handleClick(url) {
         	window.location.href = url;
         },
+        redirectToResults() {
+            const url = `http://localhost:9999/results.html?search=${this.searchQuery}`;
+            axios.get(url)
+              .then((response) => {
+                const queryParams = new URLSearchParams();
+		    queryParams.append('searchQuery',this.searchQuery);
+                queryParams.append('data', JSON.stringify(response.data));
+		    const url = `results.html?${queryParams.toString()}`;
+                window.location.href = url;
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+          },
       },
     });
   </script>

@@ -40,13 +40,11 @@
         methods: {
           redirectToResults() {
             const searchQuery = encodeURIComponent(this.searchText);
-            axios
-              .get(
-                'http://localhost:9999/results.html?search=${this.searchText}'
-              )
+            const url = `http://localhost:9999/results.html?search=${this.searchText}`;
+            axios.get(url)
               .then((response) => {
                 const queryParams = new URLSearchParams();
-		    queryParams.append('searchText',this.searchText);
+		    queryParams.append('searchQuery',this.searchText);
                 queryParams.append('data', JSON.stringify(response.data));
 		    const url = `results.html?${queryParams.toString()}`;
                 window.location.href = url;
