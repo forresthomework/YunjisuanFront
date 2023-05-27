@@ -22,7 +22,7 @@
           type="text" 
           v-model="searchQuery"
           @keydown.enter="redirectToResults"
-          placeholder="请出示你的星穹铁道车票ID" 
+          placeholder="have fun!" 
         >
         <img
           class="search-icon-results"
@@ -31,15 +31,20 @@
         /> 
       </div>
       <div id="titleitem">
-          <div class="title-div" v-for="item in [jsonData]" :key="item.title" @click="handleClick(item.url)">
-            {{ item.title }}
-            <span class="tag0" :id="item.id">id:{{ item.id }}</span>
-            <span class="tag1" :id="item.algorithm_label">Algorithm_label:{{ item.algorithm_label }}</span>
-            <span class="tag2" :id="item.difficulty">difficulty:{{ item.difficulty }}</span>
-          </div>
-      </div>
-    </div>
-  </div>
+  		<div class="title-div" v-for="item in jsonData" :key="item.title" @click="handleClick(item.url)" v-if="item.status_info === 'Success!'">
+    			<div class="title-info">
+      			<span class="title">{{ item.id }}. {{ item.title }}</span>
+				<span class="times">{{ item.times }}</span>
+      			<div class="tags">
+        				<span class="tag1" :id="item.algorithm_label">Algorithm_label:{{ item.algorithm_label }}</span>
+        				<span class="tag2" :id="item.difficulty">Difficulty:{{ item.difficulty }}</span>
+      			</div>
+    		</div>
+		<div class="title-info" v-else>
+      		<span class="times">{{ item.status_info }}</span>
+    		</div>
+  	</div>
+</div>
   <script>
     new Vue({
       el: '#app',
@@ -48,28 +53,49 @@
         jsonData: '',
       },
       created() {
-        const queryParams = new URLSearchParams(window.location.search);
-        this.searchQuery = queryParams.get('searchQuery');
-        this.jsonData = JSON.parse(queryParams.get('data'));
+      	this.readPostData();
+    	},
+	computed: {
+            sortedJsonData() {
+            return this.jsonData.sort((a, b) => b.times - a.times);
+            },
       },
-      methods: {
-        handleClick(url) {
-        	window.location.href = url;
-        },
-        redirectToResults() {
-            const url = `http://localhost:9999/results.html?search=${this.searchQuery}`;
-            axios.get(url)
-              .then((response) => {
-                const queryParams = new URLSearchParams();
-		    queryParams.append('searchQuery',this.searchQuery);
-                queryParams.append('data', JSON.stringify(response.data));
-		    const url = `results.html?${queryParams.toString()}`;
-                window.location.href = url;
-              })
-              .catch((error) => {
-                console.error('Error:', error);
-              });
-          },
+    	methods: {
+		redirectToResults() {
+            	const url = `http://localhost:9999/results.html?search=${this.searchQuery}`;
+            	axios.get(url)
+              	  .then((response) => {
+		    	  console.log(response.data)
+		    	  const postUrl = `results.html?search=${this.searchQuery}`;
+		    	  window.location.href = postUrl;
+              	  })
+		  	  .catch((error) => {
+                	  if (error.response && error.response.status === 404) {
+                  	  alert('没有您想要的资源，请重新搜索');
+				  const errUrl = `results.html?search=`;
+                  	  window.location.href = errUrl;
+                	   } else {
+                  	  console.error('Error:', error);
+                	  }
+              	});
+            },
+      	async readPostData() {
+       	 try {
+			const urlParams = new URLSearchParams(window.location.search);
+          		this.searchQuery = urlParams.get('search');
+          		console.log('Received search query:', this.searchQuery);
+			const responseUrl = `http://localhost:9999/results.html?search=${this.searchQuery}`;
+          		const response = await fetch(responseUrl, {
+            	method: 'POST',
+          	      });
+          		const data = await response.json();
+          		console.log('Received data:', data);
+          		this.searchQuery = data.searchQuery;
+          		this.jsonData = data;
+        	 } catch (error) {
+               console.error('Error in reading POST data:', error);
+        	 }
+            },
       },
     });
   </script>
