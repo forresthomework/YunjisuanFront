@@ -137,8 +137,11 @@ body {
   background-color: #e0e0e0; /* 鼠标悬停时的背景颜色 */
 }
 
+.title{
+  text-decoration: underline;
+}
 
-.tag0,
+
 .tag1,
 .tag2 {
   flex: 1;
@@ -148,16 +151,19 @@ body {
   border-radius: 5px;
 }
 
-.tag0 {
-  background-color: orange;
-  margin-right: 5px;
-}
 
 .tag1 {
-  background-color: #CCE6FF;
+  background-color: skyblue;
   margin-right: 20px;
 }
 
 .tag2 {
   background-color: red;
+}
+
+.times {
+  font-family: "Lucida Handwriting", cursive;
+  font-size: 14px;
+  color: #999;
+  margin-left: 10px;
 }
