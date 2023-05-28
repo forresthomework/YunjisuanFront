@@ -1,5 +1,10 @@
 @import './base.css';
 
+@font-face {
+  font-family: 'titleFont';
+  src: url('/public/title.ttf') format('truetype');
+}
+ 
 body {
   display: flex;
   justify-content: center;
@@ -80,6 +85,7 @@ body {
   transition: font-weight 0.5s ease;
 }
 
+
 .search-button:hover {
   font-weight: bold; /* 鼠标悬停时改变字体加粗 */
 }
@@ -91,6 +97,7 @@ body {
 .logo-container-results {
   margin-right: 10px;
   margin-top: 40px; /* 添加上边距，避免顶部超出页面 */
+  background-color: transparent;
 }
 
 .logo {
@@ -117,6 +124,7 @@ body {
 
 .search-container-results {
   position: relative;
+  background-color: transparent;
   margin-top: 80px; /* 添加上边距，避免顶部超出页面 */
 }
 
@@ -131,14 +139,19 @@ body {
   padding: 8px 2px;
   font-weight: bold;
   cursor: pointer;
+  border-radius: 10px;
+  background-image: linear-gradient(to right, #FFC300, #F7C700);
 }
 
-.title-div:hover {
-  background-color: #e0e0e0; /* 鼠标悬停时的背景颜色 */
+.title:hover {
+  color: #FF0000; /* 鼠标悬停时的字体颜色 */
 }
 
 .title{
+  color: black;
   text-decoration: underline;
+  padding-left: 10px;
+  font-family: "titleFont", sans-serif;
 }
 
 
@@ -146,24 +159,29 @@ body {
 .tag2 {
   flex: 1;
   font-size: 10px;
-  color: #fff;
+  color: black;
+  font-family: "Aria", sans-serif;
   padding: 3px 5px;
   border-radius: 5px;
 }
 
+.tags {
+  padding-left: 10px;
+}
 
 .tag1 {
-  background-color: skyblue;
+  background-color: white;
   margin-right: 20px;
 }
 
 .tag2 {
-  background-color: red;
+  background-color: white;
 }
 
 .times {
   font-family: "Lucida Handwriting", cursive;
   font-size: 14px;
-  color: #999;
+  font-weight: bold;
+  color: white;
   margin-left: 10px;
 }
