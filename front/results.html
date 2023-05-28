@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8" />
-  <link rel="icon" href="favicon-16x16.png" />
-  <link rel="icon" href="favicon-16x16.png" />
+  <link rel="icon" href="/public/favicon-16x16.png" />
+  <link rel="icon" href="/public/favicon-16x16.png" />
   <link rel="stylesheet" href="/src/assets/main.css" />
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
@@ -14,30 +14,30 @@
 <body>
   <div id="app">
     <div class="search-container-results">
-      <div class="logo-container-results">
-        <img src="leetcode.png" alt="Logo" class="logo-results" />
-      </div>
-      <div class="search-box-results">
-        <input 
-          type="text" 
-          v-model="searchQuery"
-          @keydown.enter="redirectToResults"
-          placeholder="have fun!" 
-        >
-        <img
-          class="search-icon-results"
-          src="icon_search.svg"
-          alt="Magnifying Glass"
-        /> 
-      </div>
+      	<div class="logo-container-results">
+        	<img src="/public/leetcode.png" alt="Logo" class="logo-results" />
+      	</div>
+      	<div class="search-box-results">
+        	<input 
+          	type="text" 
+          	v-model="searchQuery"
+          	@keydown.enter="redirectToResults"
+          	placeholder="have fun!" 
+        	>
+        	<img
+          	class="search-icon-results"
+          	src="/public/icon_search.svg"
+          	alt="Magnifying Glass"
+        	/> 
+      	</div>
       <div id="titleitem">
   		<div class="title-div" v-for="item in jsonData" :key="item.title" @click="handleClick(item.url)" v-if="item.status_info === 'Success!'">
-    			<div class="title-info">
+    			<div class="title-info" >
       			<span class="title">{{ item.id }}. {{ item.title }}</span>
-				<span class="times">{{ item.times }}</span>
+				<span class="times">count: {{ item.times }}</span>
       			<div class="tags">
-        				<span class="tag1" :id="item.algorithm_label">Algorithm_label:{{ item.algorithm_label }}</span>
-        				<span class="tag2" :id="item.difficulty">Difficulty:{{ item.difficulty }}</span>
+        				<span class="tag1" :id="item.algorithm_label">Algorithm_label :{{ item.algorithm_label }}</span>
+        				<span class="tag2" :id="item.difficulty">Difficulty :{{ item.difficulty }}</span>
       			</div>
     		</div>
 		<div class="title-info" v-else>
@@ -61,6 +61,9 @@
             },
       },
     	methods: {
+		handleClick(url) {
+    			window.location.href = url;
+  		},
 		redirectToResults() {
             	const url = `http://localhost:9999/results.html?search=${this.searchQuery}`;
             	axios.get(url)
